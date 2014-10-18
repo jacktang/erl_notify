@@ -1,0 +1,9 @@
+{application, erl_notify, [
+    {description, "Notify Erlang Implementation"},
+    {applications, [kernel, stdlib]},
+    {vsn, "0.1"},
+    {registered, [erl_notify_app, desktop, growl]},
+    {mod, { erl_notify_app, []}},
+    {env, [
+    ]}
+]}.
