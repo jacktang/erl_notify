@@ -10,7 +10,8 @@
 
 %% API
 -export([notify_success/1, notify_success/2]).
--export([notify_errors/1, notify_warnings/1]).
+-export([notify_errors/1, notify_errors/2]).
+-export([notify_warnings/1, notify_warnings/2]).
 
 %%%===================================================================
 %%% API
@@ -21,11 +22,18 @@ notify_success(Message) ->
 notify_success(Title, Message) ->
     growl("success", Title, Message).
 
+
 notify_errors(Message) ->
     growl("errors", "Errors...", Message).
 
+notify_errors(Title, Message) ->
+    growl("errors", Title, Message).
+
 notify_warnings(Message) ->
     growl("warnings", "Warnings", Message).
+
+notify_warnings(Title, Message) ->
+    growl("warnings", Title, Message).
 
 %%%===================================================================
 %%% Internal functions
@@ -38,6 +46,8 @@ growl(Image, Title, Message) ->
                       {win32, _} ->
                           make_cmd("notifu", ImagePath, Title, Message);
                       {unix,linux} ->
+                          % debian notify-send issue:
+                          % http://askubuntu.com/questions/52960/notify-send-does-nothing-yet-libnotify-is-installed
                           make_cmd("notify-send", ImagePath, Title, Message);
                       _ ->
                           make_cmd("growlnotify", ImagePath, Title, Message)
